@@ -215,80 +215,45 @@
     });
   }
 
-  /* === Photo Book Gallery === */
-  function initPhotoBook() {
-    const book = document.getElementById('photoBook');
-    const pages = book?.querySelectorAll('.page');
-    const prevBtn = document.getElementById('prevPage');
-    const nextBtn = document.getElementById('nextPage');
-    const indicator = document.getElementById('pageIndicator');
+  /* === Photo Wheel Gallery === */
+  function initPhotoWheel() {
+    const wheel = document.getElementById('photoWheel');
+    const prevBtn = document.getElementById('wheelPrev');
+    const nextBtn = document.getElementById('wheelNext');
     
-    if (!book || !pages || pages.length === 0) return;
+    if (!wheel) return;
     
-    let currentPage = 0;
-    const totalPages = pages.length;
-    let autoFlipInterval;
+    let rotation = 0;
+    const angle = 45; // 360 / 8 фото
+    let isAnimating = true;
     
-    function updateBook() {
-      pages.forEach((page, index) => {
-        page.classList.remove('active', 'flipped');
-        if (index === currentPage) {
-          page.classList.add('active');
-        } else if (index < currentPage) {
-          page.classList.add('flipped');
-        }
-      });
+    function rotate(direction) {
+      rotation += direction * angle;
+      wheel.style.animation = 'none';
+      wheel.style.transform = `perspective(1000px) rotateY(${rotation}deg)`;
+      isAnimating = false;
       
-      indicator.textContent = `${currentPage + 1} / ${totalPages}`;
-      prevBtn.disabled = currentPage === 0;
-      nextBtn.disabled = currentPage === totalPages - 1;
+      // Возобновить авто-вращение через 3 секунды
+      setTimeout(() => {
+        wheel.style.animation = 'rotateWheel 30s linear infinite';
+        wheel.style.transform = '';
+        isAnimating = true;
+      }, 3000);
     }
     
-    function nextPage() {
-      if (currentPage < totalPages - 1) {
-        currentPage++;
-        updateBook();
-      } else {
-        // Вернуться к первой странице
-        currentPage = 0;
-        pages.forEach(p => p.classList.remove('flipped'));
-        setTimeout(updateBook, 50);
-      }
-    }
+    prevBtn?.addEventListener('click', () => rotate(-1));
+    nextBtn?.addEventListener('click', () => rotate(1));
     
-    function prevPage() {
-      if (currentPage > 0) {
-        currentPage--;
-        updateBook();
-      }
-    }
-    
-    function startAutoFlip() {
-      autoFlipInterval = setInterval(nextPage, 4000);
-    }
-    
-    function stopAutoFlip() {
-      clearInterval(autoFlipInterval);
-    }
-    
-    nextBtn?.addEventListener('click', () => {
-      stopAutoFlip();
-      nextPage();
-      startAutoFlip();
+    // Остановка при наведении (уже через CSS)
+    // Дополнительно остановим анимацию при клике на фото
+    wheel.querySelectorAll('.wheel-item').forEach(item => {
+      item.addEventListener('click', () => {
+        wheel.style.animationPlayState = 'paused';
+        setTimeout(() => {
+          wheel.style.animationPlayState = 'running';
+        }, 2000);
+      });
     });
-    
-    prevBtn?.addEventListener('click', () => {
-      stopAutoFlip();
-      prevPage();
-      startAutoFlip();
-    });
-    
-    // Pause on hover
-    book.addEventListener('mouseenter', stopAutoFlip);
-    book.addEventListener('mouseleave', startAutoFlip);
-    
-    updateBook();
-    startAutoFlip();
   }
 
   /* === Init === */
@@ -299,6 +264,6 @@
     initPhoneMask();
     initForm();
     initCookieBanner();
-    initPhotoBook();
+    initPhotoWheel();
   });
 })();
