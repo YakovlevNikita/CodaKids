@@ -231,12 +231,21 @@
     const wheel = document.getElementById('photoWheel');
     const prevBtn = document.getElementById('wheelPrev');
     const nextBtn = document.getElementById('wheelNext');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
     
     if (!wheel) return;
     
     let rotation = 0;
     const angle = 45; // 360 / 8 фото
     let isAnimating = true;
+    let currentImageIndex = 0;
+    
+    // Собираем все URL изображений
+    const wheelImages = Array.from(wheel.querySelectorAll('.wheel-item img')).map(img => img.src);
     
     function rotate(direction) {
       rotation += direction * angle;
@@ -244,7 +253,6 @@
       wheel.style.transform = `perspective(1000px) rotateY(${rotation}deg)`;
       isAnimating = false;
       
-      // Возобновить авто-вращение через 3 секунды
       setTimeout(() => {
         wheel.style.animation = 'rotateWheel 30s linear infinite';
         wheel.style.transform = '';
@@ -255,15 +263,53 @@
     prevBtn?.addEventListener('click', () => rotate(-1));
     nextBtn?.addEventListener('click', () => rotate(1));
     
-    // Остановка при наведении (уже через CSS)
-    // Дополнительно остановим анимацию при клике на фото
-    wheel.querySelectorAll('.wheel-item').forEach(item => {
+    // Lightbox функции
+    function openLightbox(index) {
+      currentImageIndex = index;
+      lightboxImg.src = wheelImages[index];
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    function showPrevImage() {
+      currentImageIndex = (currentImageIndex - 1 + wheelImages.length) % wheelImages.length;
+      lightboxImg.src = wheelImages[currentImageIndex];
+    }
+    
+    function showNextImage() {
+      currentImageIndex = (currentImageIndex + 1) % wheelImages.length;
+      lightboxImg.src = wheelImages[currentImageIndex];
+    }
+    
+    // Клик на фото в колесе
+    wheel.querySelectorAll('.wheel-item').forEach((item, index) => {
       item.addEventListener('click', () => {
         wheel.style.animationPlayState = 'paused';
-        setTimeout(() => {
-          wheel.style.animationPlayState = 'running';
-        }, 2000);
+        openLightbox(index);
       });
+      item.style.cursor = 'pointer';
+    });
+    
+    // Lightbox события
+    lightboxClose?.addEventListener('click', closeLightbox);
+    lightboxPrev?.addEventListener('click', (e) => { e.stopPropagation(); showPrevImage(); });
+    lightboxNext?.addEventListener('click', (e) => { e.stopPropagation(); showNextImage(); });
+    
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    
+    // Клавиатура
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showPrevImage();
+      if (e.key === 'ArrowRight') showNextImage();
     });
   }
 
