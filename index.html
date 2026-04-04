@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodaKids — Курсы программирования для детей и подростков</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Coda<span>Kids</span></a>
+      <nav class="main-nav" id="mainNav">
+        <a href="#courses">Курсы</a>
+        <a href="#about">О студии</a>
+        <a href="#team">Команда</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <a href="tel:+79247121322" class="header-phone">+7 (924) 712-13-22</a>
+      <button class="burger" id="burger" aria-label="Открыть меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <h1>Профессиональные курсы по программированию, созданию игр, веб-разработке, нейросетям, психологии для детей и подростков <span class="accent">8-16 лет</span></h1>
+        <ul class="hero-features">
+          <li><span class="check">✓</span> 80% практики</li>
+          <li><span class="check">✓</span> Опытные преподаватели</li>
+          <li><span class="check">✓</span> Лицензия на образовательную деятельность</li>
+        </ul>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-scroll="#leadForm">Записаться на пробный урок</button>
+          <p class="hero-note">Бесплатный пробный урок или индивидуальная консультация</p>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="placeholder placeholder-lg">
+          <span>Место для фото</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-dots" aria-hidden="true"></div>
+  </section>
+
+  <section class="section section-light advantages" id="advantages">
+    <div class="container">
+      <div class="advantages-grid">
+        <article class="advantage-card">
+          <div class="adv-icon">🎯</div>
+          <h3>Реальный прогресс ребенка</h3>
+          <p>80% практики. Дети получают практические навыки, а не теорию</p>
+        </article>
+        <article class="advantage-card">
+          <div class="adv-icon">💬</div>
+          <h3>Обратная связь родителям</h3>
+          <p>Регулярные отчеты о пройденных модулях и успехах детей</p>
+        </article>
+        <article class="advantage-card">
+          <div class="adv-icon">🚀</div>
+          <h3>Для кого наши курсы?</h3>
+          <p>Превратим потребителя технологий в их создателя</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark values" id="values">
+    <div class="container values-inner">
+      <div class="values-visual">
+        <div class="placeholder placeholder-md">
+          <span>Место для фото</span>
+        </div>
+      </div>
+      <div class="values-text">
+        <h2 class="section-title">Почему именно мы?</h2>
+        <ul class="values-list">
+          <li><span class="bullet"></span> Не просто программист, а лидер с навыками будущего</li>
+          <li><span class="bullet"></span> Хотите развить у ребенка навыки общения и лидерства?</li>
+          <li><span class="bullet"></span> Учим создавать технологии, а не просто пользоваться ими</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light courses" id="courses">
+    <div class="container">
+      <h2 class="section-title center">Каталог курсов</h2>
+      <div class="courses-grid" id="coursesGrid">
+        <!-- Карточки генерируются из JS, но для семантики оставим шаблон здесь или сразу вставим -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark about" id="about">
+    <div class="container about-inner">
+      <div class="about-text">
+        <h2 class="section-title">О студии</h2>
+        <ul class="about-list">
+          <li>
+            <span class="number">01</span>
+            <p>Государственная образовательная лицензия (налоговый вычет 13%)</p>
+          </li>
+          <li>
+            <span class="number">02</span>
+            <p>Группы до 10 человек</p>
+          </li>
+          <li>
+            <span class="number">03</span>
+            <p>Уроки 1 раз в неделю по 2 часа</p>
+          </li>
+          <li>
+            <span class="number">04</span>
+            <p>80% практики на каждом уроке</p>
+          </li>
+        </ul>
+      </div>
+      <div class="about-visual">
+        <div class="placeholder placeholder-md">
+          <span>Место для фото</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark lead" id="leadForm">
+    <div class="container">
+      <div class="lead-card">
+        <h2 class="lead-title">Запишитесь на бесплатный урок или узнайте подробности</h2>
+        <p class="lead-subtitle">Мы перезвоним и проконсультируем</p>
+        <form class="lead-form" id="captureForm" novalidate>
+          <div class="form-row">
+            <input type="tel" name="phone" id="phoneInput" placeholder="+7 (___) ___-__-__" required>
+            <input type="email" name="email" placeholder="E-mail" required>
+            <button type="submit" class="btn btn-primary">Оставить заявку</button>
+          </div>
+          <small class="form-agree">
+            Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь с политикой конфиденциальности
+          </small>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light team" id="team">
+    <div class="container">
+      <h2 class="section-title center">Команда</h2>
+      <div class="team-grid">
+        <article class="team-card">
+          <div class="team-avatar placeholder">
+            <span>Фото</span>
+          </div>
+          <h3>Яковлев Никита Андреевич</h3>
+          <p class="team-role">Старший преподаватель IT</p>
+          <p class="team-desc">Python, Minecraft, Scratch, CS50, Unreal Engine 4, дроны</p>
+        </article>
+        <article class="team-card">
+          <div class="team-avatar placeholder">
+            <span>Фото</span>
+          </div>
+          <h3>Кучерявенко Вероника Валерьевна</h3>
+          <p class="team-role">Профориентолог, психолог</p>
+          <p class="team-desc">НЛП, детская психотерапия, аналитическая психология</p>
+        </article>
+        <article class="team-card">
+          <div class="team-avatar placeholder">
+            <span>Фото</span>
+          </div>
+          <h3>Семенюк Лариса Валерьевна</h3>
+          <p class="team-role">Педагог-психолог</p>
+          <p class="team-desc">20+ лет опыта, арт-терапия, семейное консультирование</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" id="contacts">
+    <div class="container footer-inner">
+      <div class="footer-info">
+        <a href="#" class="logo">Coda<span>Kids</span></a>
+        <address>
+          <p>г. Ангарск, 30-й мкр, д. 1</p>
+          <p><a href="tel:+79247121322">+7 (924) 712-13-22</a></p>
+        </address>
+      </div>
+      <div class="footer-actions">
+        <a class="btn btn-outline" href="https://wa.me/79247121322" target="_blank" rel="noopener">Задать вопрос в WhatsApp</a>
+        <p class="made-on">Made on Tilda</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <p>Мы используем cookie для улучшения работы сайта.</p>
+    <button class="btn btn-small" id="cookieOk">OK</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
