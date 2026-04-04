@@ -9,6 +9,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
+      image: 'Foto/Курсы/Майнкрафт основы.png',
       desc: 'Вводный курс в мир программирования через любимую игру. Дети учатся базовым алгоритмам и логике.'
     },
     {
@@ -17,6 +18,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
+      image: 'Foto/Курсы/Майнкрафт Python.png',
       desc: 'Переход от визуальных блоков к реальному коду на Python в среде Minecraft.'
     },
     {
@@ -25,6 +27,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
+      image: 'Foto/Курсы/Screth.png',
       desc: 'Углублённое изучение Scratch: анимация, физика, создание механик и уровней.'
     },
     {
@@ -33,6 +36,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
+      image: 'Foto/Курсы/Веб-разработка.png',
       desc: 'HTML, CSS и основы JavaScript. Результат — собственный сайт-портфолио.'
     },
     {
@@ -41,6 +45,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
+      image: 'Foto/Курсы/CS50.png',
       desc: 'Адаптированная программа знаменитого гарвардского курса для подростков.'
     },
     {
@@ -49,6 +54,7 @@
       direction: 'Психология',
       price: '4700₽/модуль',
       status: 'closed',
+      image: 'Foto/Курсы/Психология общения.png',
       desc: 'Развитие коммуникативных навыков, эмпатии и уверенности в себе.'
     },
     {
@@ -57,6 +63,7 @@
       direction: 'Психология',
       price: '9000₽ (3 консультации)',
       status: 'open',
+      image: 'Foto/Курсы/Профориентация подростки.png',
       desc: 'Помогаем разобраться в интересах и выбрать направление для обучения и карьеры.'
     },
     {
@@ -65,6 +72,7 @@
       direction: 'Психология',
       price: '9000₽ (3 консультации)',
       status: 'open',
+      image: 'Foto/Курсы/Профориентация взрослые.png',
       desc: 'Индивидуальные консультации по выбору профессии и построению карьерного трека.'
     }
   ];
@@ -79,6 +87,9 @@
       const statusClass = isOpen ? 'status-open' : 'status-closed';
       return `
         <article class="course-card">
+          <div class="course-image">
+            <img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.title)}">
+          </div>
           <span class="status ${statusClass}">${statusText}</span>
           <h3>${escapeHtml(c.title)}</h3>
           <ul class="course-meta">
