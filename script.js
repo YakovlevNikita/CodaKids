@@ -274,6 +274,8 @@
     function closeLightbox() {
       lightbox.classList.remove('active');
       document.body.style.overflow = '';
+      // Возобновляем вращение колеса
+      wheel.style.animationPlayState = 'running';
     }
     
     function showPrevImage() {
