@@ -326,6 +326,15 @@ img {
   box-shadow: var(--shadow);
 }
 
+.about-image {
+  width: 100%;
+  height: auto;
+  min-height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
 .hero-dots {
   position: absolute;
   inset: 0;
