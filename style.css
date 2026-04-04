@@ -358,6 +358,69 @@ img {
   margin-bottom: 16px;
 }
 
+.adv-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Animations for advantage icons */
+.advantage-card:hover .icon-circle {
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+.advantage-card:hover .icon-center {
+  animation: pulse-center 1s ease-in-out infinite alternate;
+}
+
+.advantage-card:hover .icon-chat {
+  animation: bounce-chat 0.6s ease infinite alternate;
+}
+
+.advantage-card:hover .icon-badge {
+  animation: scale-badge 0.5s ease infinite alternate;
+}
+
+.advantage-card:hover .icon-rocket-top {
+  animation: shake-rocket 0.3s ease infinite;
+}
+
+.advantage-card:hover .icon-flame,
+.advantage-card:hover .icon-flame-inner {
+  animation: flicker 0.2s ease infinite alternate;
+}
+
+@keyframes pulse-ring {
+  0% { opacity: 1; stroke-width: 2; }
+  50% { opacity: 0.5; stroke-width: 3; }
+  100% { opacity: 1; stroke-width: 2; }
+}
+
+@keyframes pulse-center {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
+@keyframes bounce-chat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2px); }
+}
+
+@keyframes scale-badge {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+@keyframes shake-rocket {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px) rotate(-1deg); }
+  75% { transform: translateX(1px) rotate(1deg); }
+}
+
+@keyframes flicker {
+  from { opacity: 1; }
+  to { opacity: 0.6; }
+}
+
 .advantage-card h3 {
   margin: 0 0 8px;
   font-size: 18px;
