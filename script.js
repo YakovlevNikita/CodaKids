@@ -215,6 +215,82 @@
     });
   }
 
+  /* === Photo Book Gallery === */
+  function initPhotoBook() {
+    const book = document.getElementById('photoBook');
+    const pages = book?.querySelectorAll('.page');
+    const prevBtn = document.getElementById('prevPage');
+    const nextBtn = document.getElementById('nextPage');
+    const indicator = document.getElementById('pageIndicator');
+    
+    if (!book || !pages || pages.length === 0) return;
+    
+    let currentPage = 0;
+    const totalPages = pages.length;
+    let autoFlipInterval;
+    
+    function updateBook() {
+      pages.forEach((page, index) => {
+        page.classList.remove('active', 'flipped');
+        if (index === currentPage) {
+          page.classList.add('active');
+        } else if (index < currentPage) {
+          page.classList.add('flipped');
+        }
+      });
+      
+      indicator.textContent = `${currentPage + 1} / ${totalPages}`;
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === totalPages - 1;
+    }
+    
+    function nextPage() {
+      if (currentPage < totalPages - 1) {
+        currentPage++;
+        updateBook();
+      } else {
+        // Вернуться к первой странице
+        currentPage = 0;
+        pages.forEach(p => p.classList.remove('flipped'));
+        setTimeout(updateBook, 50);
+      }
+    }
+    
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        updateBook();
+      }
+    }
+    
+    function startAutoFlip() {
+      autoFlipInterval = setInterval(nextPage, 4000);
+    }
+    
+    function stopAutoFlip() {
+      clearInterval(autoFlipInterval);
+    }
+    
+    nextBtn?.addEventListener('click', () => {
+      stopAutoFlip();
+      nextPage();
+      startAutoFlip();
+    });
+    
+    prevBtn?.addEventListener('click', () => {
+      stopAutoFlip();
+      prevPage();
+      startAutoFlip();
+    });
+    
+    // Pause on hover
+    book.addEventListener('mouseenter', stopAutoFlip);
+    book.addEventListener('mouseleave', startAutoFlip);
+    
+    updateBook();
+    startAutoFlip();
+  }
+
   /* === Init === */
   document.addEventListener('DOMContentLoaded', () => {
     renderCourses();
@@ -223,5 +299,6 @@
     initPhoneMask();
     initForm();
     initCookieBanner();
+    initPhotoBook();
   });
 })();
