@@ -8,7 +8,7 @@ $telegramToken = '8287572774:AAFUbyvSH_M_Vj4x5iguP9SqaS3qPp-vLOc';  // Заме�
 $chatId = '290465234';           // Замени на свой chat_id от @userinfobot
 
 // Email для дублирования
-$adminEmail = 'codakids.ang@gmail.com';      // Замени на свою почту
+$adminEmail = 'yakovlev.nikita.2012@gmail.com';      // Замени на свою почту
 $emailSubject = 'Новая заявка с сайта КодаКидс';
 
 // =====================================================
