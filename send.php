@@ -5,10 +5,10 @@
 
 // Telegram Bot API
 $telegramToken = '8287572774:AAFUbyvSH_M_Vj4x5iguP9SqaS3qPp-vLOc';  // Замени на токен от @BotFather
-$chatId = '290465234';           // Замени на свой chat_id от @userinfobot
+$chatId = '1912077593';           // Замени на свой chat_id от @userinfobot
 
 // Email для дублирования
-$adminEmail = 'yakovlev.nikita.2012@gmail.com';      // Замени на свою почту
+$adminEmail = 'codakids.ang@gmail.com';      // Замени на свою почту
 $emailSubject = 'Новая заявка с сайта КодаКидс';
 
 // =====================================================
