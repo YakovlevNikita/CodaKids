@@ -39,7 +39,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Courses/Screth.png',
+      image: 'Foto/Courses/scratch.png',
       desc: 'Углублённое изучение Scratch: анимация, физика, создание механик и уровней.'
     },
     {
@@ -57,7 +57,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Courses/CS50.png',
+      image: 'Foto/Courses/cs50.png',
       desc: 'Адаптированная программа знаменитого гарвардского курса для подростков.'
     },
     {
