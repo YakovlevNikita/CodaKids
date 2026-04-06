@@ -1,6 +1,18 @@
 (function () {
   'use strict';
 
+  /* === Courses data mapping === */
+  const courseMapping = {
+    'Майнкрафт: основы программирования': 'minecraft-basics',
+    'Майнкрафт: программирование на Python': 'minecraft-python',
+    'Создание игр в Scratch (продвинутый)': 'scratch',
+    'Веб-разработка (создание сайтов)': 'web-dev',
+    'Гарвардский курс CS50': 'cs50',
+    'Искусство общения / Эмоциональный интеллект': 'communication',
+    'Профориентация для подростков': 'proforientation-teens',
+    'Профориентация для взрослых': 'proforientation-adults'
+  };
+
   /* === Courses data === */
   const courses = [
     {
@@ -99,7 +111,7 @@
           <p class="course-desc">${escapeHtml(c.desc)}</p>
           <div class="course-price">${escapeHtml(c.price)}</div>
           <div class="course-actions">
-            <a href="#" onclick="event.preventDefault(); alert('Страница курса в разработке');">Подробнее</a>
+            <button type="button" class="course-details-btn" data-course="${escapeHtml(c.title)}">Подробнее</button>
             <button type="button" data-scroll="#leadForm">Записаться</button>
           </div>
         </article>
@@ -187,43 +199,164 @@
   /* === Form handling === */
   function initForm() {
     const form = document.getElementById('captureForm');
+    const consentCheckbox = document.getElementById('consentCheckbox');
+    const submitBtn = document.getElementById('submitBtn');
+    const formStatus = document.getElementById('formStatus');
+    
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    // Toggle submit button based on consent checkbox
+    if (consentCheckbox && submitBtn) {
+      consentCheckbox.addEventListener('change', () => {
+        submitBtn.disabled = !consentCheckbox.checked;
+      });
+    }
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      // Check consent
+      if (consentCheckbox && !consentCheckbox.checked) {
+        showStatus('Пожалуйста, подтвердите согласие с политикой обработки персональных данных', 'error');
+        return;
+      }
+      
       const phone = form.phone.value.trim();
       const email = form.email.value.trim();
 
       if (!phone || phone.length < 6) {
-        alert('Пожалуйста, введите корректный номер телефона');
+        showStatus('Пожалуйста, введите корректный номер телефона', 'error');
         form.phone.focus();
         return;
       }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert('Пожалуйста, введите корректный E-mail');
+        showStatus('Пожалуйста, введите корректный E-mail', 'error');
         form.email.focus();
         return;
       }
 
-      alert('Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время.');
-      form.reset();
+      // Show loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка...';
+      }
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch('send.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showStatus(result.message, 'success');
+          form.reset();
+          if (consentCheckbox) consentCheckbox.checked = false;
+        } else {
+          showStatus(result.message || 'Ошибка отправки', 'error');
+        }
+      } catch (error) {
+        showStatus('Ошибка сети. Попробуйте ещё раз или позвоните нам.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.textContent = 'Оставить заявку';
+          submitBtn.disabled = consentCheckbox ? !consentCheckbox.checked : true;
+        }
+      }
+    });
+
+    function showStatus(message, type) {
+      if (!formStatus) return;
+      formStatus.textContent = message;
+      formStatus.className = 'form-status ' + type;
+      formStatus.style.display = 'block';
+      
+      setTimeout(() => {
+        formStatus.style.display = 'none';
+      }, 5000);
+    }
+  }
+
+  /* === Policy Modal === */
+  function initPolicyModal() {
+    const modal = document.getElementById('policyModal');
+    const closeBtn = document.getElementById('policyModalClose');
+    const openLink = document.getElementById('openPolicyLink');
+    const footerLink = document.getElementById('footerPolicyLink');
+
+    if (!modal) return;
+
+    function openModal(e) {
+      if (e) e.preventDefault();
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Open from form link
+    if (openLink) {
+      openLink.addEventListener('click', openModal);
+    }
+
+    // Open from footer link
+    if (footerLink) {
+      footerLink.addEventListener('click', openModal);
+    }
+
+    // Close button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeModal);
+    }
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
     });
   }
 
   /* === Cookie banner === */
   function initCookieBanner() {
     const banner = document.getElementById('cookieBanner');
-    const btn = document.getElementById('cookieOk');
-    if (!banner || !btn) return;
+    const btnOk = document.getElementById('cookieOk');
+    const btnDecline = document.getElementById('cookieDecline');
+    if (!banner) return;
 
-    if (localStorage.getItem('cookiesAccepted')) {
+    // Check if user already made a choice
+    if (localStorage.getItem('cookiesChoice')) {
       banner.classList.add('hidden');
     }
 
-    btn.addEventListener('click', () => {
-      localStorage.setItem('cookiesAccepted', '1');
-      banner.classList.add('hidden');
-    });
+    // Accept cookies
+    if (btnOk) {
+      btnOk.addEventListener('click', () => {
+        localStorage.setItem('cookiesChoice', 'accepted');
+        localStorage.setItem('cookiesAccepted', '1');
+        banner.classList.add('hidden');
+      });
+    }
+
+    // Decline cookies
+    if (btnDecline) {
+      btnDecline.addEventListener('click', () => {
+        localStorage.setItem('cookiesChoice', 'declined');
+        banner.classList.add('hidden');
+      });
+    }
   }
 
   /* === Photo Wheel Gallery === */
@@ -315,6 +448,112 @@
     });
   }
 
+  /* === Scroll to Top === */
+  function initScrollToTop() {
+    const btn = document.getElementById('scrollToTop');
+    if (!btn) return;
+
+    // Show/hide button based on scroll position
+    function toggleVisibility() {
+      if (window.scrollY > 500) {
+        btn.classList.add('visible');
+      } else {
+        btn.classList.remove('visible');
+      }
+    }
+
+    // Scroll to top on click
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Listen for scroll events
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    
+    // Initial check
+    toggleVisibility();
+  }
+
+  /* === Course Modal === */
+  function initCourseModal() {
+    const modal = document.getElementById('courseModal');
+    const closeBtn = document.getElementById('courseModalClose');
+    const enrollBtn = document.getElementById('courseModalEnroll');
+    const modalImg = document.getElementById('courseModalImg');
+    const modalTitle = document.getElementById('courseModalTitle');
+    const modalMeta = document.getElementById('courseModalMeta');
+    const modalBody = document.getElementById('courseModalBody');
+
+    if (!modal) return;
+
+    function openModal(courseId, courseData) {
+      const courseInfo = coursesData[courseId];
+      if (!courseInfo) return;
+
+      modalImg.src = courseData.image;
+      modalImg.alt = courseData.title;
+      modalTitle.textContent = courseData.title;
+      
+      modalMeta.innerHTML = `
+        <span>${courseData.age}</span>
+        <span>${courseData.direction}</span>
+        <span>${courseData.price}</span>
+      `;
+      
+      modalBody.innerHTML = courseInfo.content;
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Attach click handlers to course detail buttons
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('course-details-btn')) {
+        const courseTitle = e.target.dataset.course;
+        const courseId = courseMapping[courseTitle];
+        const courseData = courses.find(c => c.title === courseTitle);
+        if (courseId && courseData) {
+          openModal(courseId, courseData);
+        }
+      }
+    });
+
+    // Close button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeModal);
+    }
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Enroll button scroll
+    if (enrollBtn) {
+      enrollBtn.addEventListener('click', () => {
+        closeModal();
+        const target = document.querySelector('#leadForm');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+  }
+
   /* === Init === */
   document.addEventListener('DOMContentLoaded', () => {
     renderCourses();
@@ -324,5 +563,8 @@
     initForm();
     initCookieBanner();
     initPhotoWheel();
+    initPolicyModal();
+    initCourseModal();
+    initScrollToTop();
   });
 })();

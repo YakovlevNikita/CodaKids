@@ -156,15 +156,18 @@
       <div class="lead-card">
         <h2 class="lead-title">Запишитесь на бесплатный урок или узнайте подробности</h2>
         <p class="lead-subtitle">Мы перезвоним и проконсультируем</p>
-        <form class="lead-form" id="captureForm" novalidate>
+        <form class="lead-form" id="captureForm" novalidate action="send.php" method="POST">
           <div class="form-row">
             <input type="tel" name="phone" id="phoneInput" placeholder="+7 (___) ___-__-__" required>
             <input type="email" name="email" placeholder="E-mail" required>
-            <button type="submit" class="btn btn-primary">Оставить заявку</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Оставить заявку</button>
           </div>
-          <small class="form-agree">
-            Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь с политикой конфиденциальности
-          </small>
+          <label class="form-consent">
+            <input type="checkbox" id="consentCheckbox" name="consent" value="1">
+            <span class="checkmark"></span>
+            <span class="consent-text">Я согласен с <a href="#" class="policy-link" id="openPolicyLink">политикой обработки персональных данных</a></span>
+          </label>
+          <div class="form-status" id="formStatus"></div>
         </form>
       </div>
     </div>
@@ -224,6 +227,35 @@
     </div>
   </section>
 
+  <section class="section section-light map-section" id="map">
+    <div class="container">
+      <h2 class="section-title center">Как нас найти</h2>
+      <div class="map-wrapper">
+        <iframe 
+          src="https://2gis.ru/angarsk/firm/70000001022891545?m=103.888255%2C52.536733%2F16"
+          width="100%" 
+          height="100%" 
+          style="border:0; border-radius: 16px;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <div class="map-address">
+        <div class="map-address-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#0d8bf2"/>
+          </svg>
+        </div>
+        <div class="map-address-text">
+          <p class="map-address-title">Адрес</p>
+          <p class="map-address-value">г. Ангарск, 30-й микрорайон, д. 1</p>
+          <p class="map-address-hint">Иркутская область, 665816</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="site-footer" id="contacts">
     <div class="container footer-inner">
       <div class="footer-info">
@@ -233,16 +265,26 @@
           <p><a href="tel:+79247121322">+7 (924) 712-13-22</a></p>
         </address>
       </div>
+      <div class="footer-links">
+        <a href="#" class="footer-policy-link" id="footerPolicyLink">Политика обработки персональных данных</a>
+        <p class="footer-license">Лицензия на осуществление образовательной деятельности №Л035-01220-38/02023394</p>
+      </div>
       <div class="footer-actions">
-        <a class="btn btn-outline" href="https://wa.me/79247121322" target="_blank" rel="noopener">Задать вопрос в WhatsApp</a>
-        <p class="made-on">Made on Tilda</p>
+        <a class="btn btn-outline" href="https://web.telegram.org/a/#1912077593" target="_blank" rel="noopener">Задать вопрос в Telegram</a>
+        <a class="btn btn-outline" href="https://web.max.ru/123780151" target="_blank" rel="noopener">Задать вопрос в Max</a>
       </div>
     </div>
   </footer>
 
   <div class="cookie-banner" id="cookieBanner">
-    <p>Мы используем cookie для улучшения работы сайта.</p>
-    <button class="btn btn-small" id="cookieOk">OK</button>
+    <div class="cookie-content">
+      <p class="cookie-text">Мы используем файлы cookie. Они помогают улучшить ваше взаимодействие с сайтом.</p>
+      <p class="cookie-slogan">Гаджеты отнимают время — мы создаем будущее!</p>
+    </div>
+    <div class="cookie-actions">
+      <button class="btn btn-small btn-cookie-ok" id="cookieOk">Ок</button>
+      <button class="btn btn-small btn-cookie-decline" id="cookieDecline">Отказаться</button>
+    </div>
   </div>
 
   <div class="lightbox" id="lightbox">
@@ -252,6 +294,146 @@
     <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
   </div>
 
+  <!-- Course Modal -->
+  <div class="course-modal" id="courseModal">
+    <div class="course-modal-content">
+      <button class="course-modal-close" id="courseModalClose">&times;</button>
+      <div class="course-modal-header">
+        <img src="" alt="" class="course-modal-img" id="courseModalImg">
+        <div class="course-modal-info">
+          <h2 class="course-modal-title" id="courseModalTitle"></h2>
+          <div class="course-modal-meta" id="courseModalMeta"></div>
+        </div>
+      </div>
+      <div class="course-modal-body" id="courseModalBody"></div>
+      <div class="course-modal-footer">
+        <button type="button" class="btn btn-primary" data-scroll="#leadForm" id="courseModalEnroll">Записаться на курс</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Policy Modal -->
+  <div class="policy-modal" id="policyModal">
+    <div class="policy-modal-content">
+      <button class="policy-modal-close" id="policyModalClose">&times;</button>
+      <div class="policy-modal-body" id="policyModalBody">
+        <h1>ПОЛИТИКА ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ</h1>
+        
+        <h2>1. ОБЩИЕ ПОЛОЖЕНИЯ</h2>
+        <p>Политика обработки персональных данных (далее – «Политика») определяет порядок обработки и защиты персональных данных пользователей веб-сайта coda-ai.ru (далее – «Сайт»), принадлежащего Индивидуальному предпринимателю Кучерявенко Веронике Валерьевне (далее – «Оператор», «мы», «нас»).</p>
+        <p>Оператор руководствуется Федеральным законом от 27 июля 2006 г. № 152-ФЗ «О защите персональных данных» (далее – «Закон о защите персональных данных»), ГОСТ Р 52633-2006 и другими действующими нормативными правовыми актами Российской Федерации.</p>
+        <p>Обращаясь к Сайту, пользователь (далее – «Пользователь», «вы», «вас») соглашается с условиями настоящей Политики и дает добровольное согласие на обработку своих персональных данных на условиях, изложенных ниже.</p>
+
+        <h2>2. ОПРЕДЕЛЕНИЯ И ТЕРМИНЫ</h2>
+        <p>В настоящей Политике используются следующие термины:</p>
+        <ul>
+          <li><strong>Персональные данные</strong> – любая информация, относящаяся к прямо или косвенно определенному физическому лицу (субъекту персональных данных).</li>
+          <li><strong>Обработка персональных данных</strong> – любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными.</li>
+          <li><strong>Оператор персональных данных</strong> – физическое или юридическое лицо, самостоятельно или совместно с другими лицами организующее и (или) осуществляющее обработку персональных данных.</li>
+        </ul>
+
+        <h2>3. ДАННЫЕ ОПЕРАТОРА</h2>
+        <p><strong>Оператор персональных данных:</strong></p>
+        <ul>
+          <li>Фамилия, Имя, Отчество: Кучерявенко Вероника Валерьевна</li>
+          <li>ИНН: 381902329884</li>
+          <li>ОГРНИП: 319385000122730 (дата регистрации: 26 декабря 2019 г.)</li>
+          <li>Юридический адрес: 665824, Иркутская область, г. Ангарск, СНТ «Расцвет», д. 126</li>
+          <li>Телефон: +7 (924) 834-85-08</li>
+          <li>Адрес электронной почты: Npk@bk.ru</li>
+        </ul>
+
+        <h2>4. ВИДЫ СОБИРАЕМЫХ ПЕРСОНАЛЬНЫХ ДАННЫХ</h2>
+        <p>Оператор собирает и обрабатывает следующие персональные данные Пользователя:</p>
+        <ul>
+          <li>Фамилия, имя, отчество (при необходимости);</li>
+          <li>Адрес электронной почты;</li>
+          <li>Номер телефона;</li>
+          <li>Иная информация, добровольно предоставленная Пользователем через формы обратной связи на Сайте;</li>
+          <li>Техническая информация: IP-адрес, тип браузера, операционная система, страницы, которые Пользователь посещает на Сайте.</li>
+        </ul>
+
+        <h2>5. ЦЕЛИ ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ</h2>
+        <p>Оператор обрабатывает персональные данные Пользователя в следующих целях:</p>
+        <ul>
+          <li>Обеспечение функционирования Сайта и предоставления услуг;</li>
+          <li>Отправка информационных, маркетинговых и рекламных материалов;</li>
+          <li>Ответ на вопросы и запросы Пользователя;</li>
+          <li>Проведение аналитики использования Сайта в целях его улучшения;</li>
+          <li>Выявление и предотвращение мошенничества и нарушений безопасности;</li>
+          <li>Соблюдение требований действующего законодательства Российской Федерации.</li>
+        </ul>
+
+        <h2>6. ПРАВОВЫЕ ОСНОВАНИЯ ОБРАБОТКИ</h2>
+        <p>Оператор осуществляет обработку персональных данных на следующих правовых основаниях:</p>
+        <ul>
+          <li><strong>Согласие Пользователя</strong> – добровольное согласие на обработку персональных данных;</li>
+          <li><strong>Исполнение договорных обязательств</strong> – обработка необходима для заключения и исполнения договоров;</li>
+          <li><strong>Соблюдение требований законодательства</strong> – обработка, требуемая законодательством Российской Федерации.</li>
+        </ul>
+
+        <h2>7. СРОКИ ОБРАБОТКИ</h2>
+        <p>Персональные данные обрабатываются в течение всего периода взаимодействия Пользователя с Сайтом и в течение 3 (трех) лет после прекращения взаимодействия.</p>
+        <p>Технические данные (логи, cookies) хранятся в течение 1 (одного) года.</p>
+
+        <h2>8. ПЕРЕДАЧА ДАННЫХ ТРЕТЬИМ ЛИЦАМ</h2>
+        <p>Оператор не передает персональные данные Пользователя третьим лицам, за исключением случаев, предусмотренных законодательством.</p>
+
+        <h2>9. БЕЗОПАСНОСТь ДАННЫХ</h2>
+        <p>Оператор осуществляет необходимые организационные и технические меры по защите персональных данных от неправомерного или случайного доступа.</p>
+
+        <h2>10. ПРАВА СУБЪЕКТА ПЕРСОНАЛЬНЫХ ДАННЫХ</h2>
+        <p>В соответствии с Законом о защите персональных данных Пользователь имеет право:</p>
+        <ul>
+          <li><strong>Знать</strong> о наличии обработки его персональных данных;</li>
+          <li><strong>Получить информацию</strong> о целях, способах и сроках обработки;</li>
+          <li><strong>Получить доступ</strong> к своим персональным данным;</li>
+          <li><strong>Требовать уточнение</strong> неполных или неточных персональных данных;</li>
+          <li><strong>Требовать удаление</strong> персональных данных;</li>
+          <li><strong>Требовать блокирование</strong> персональных данных;</li>
+          <li><strong>Возражать</strong> против обработки персональных данных;</li>
+          <li><strong>Отозвать согласие</strong> на обработку персональных данных в любой момент;</li>
+          <li><strong>Обратиться</strong> в суд или органы защиты прав субъектов персональных данных.</li>
+        </ul>
+
+        <h2>11. ОБРАЩЕНИЕ ПОЛЬЗОВАТЕЛЯ</h2>
+        <p>При наличии вопросов, жалоб или для реализации прав Пользователь может обратиться к Оператору:</p>
+        <ul>
+          <li><strong>По электронной почте:</strong> Npk@bk.ru</li>
+          <li><strong>По телефону:</strong> +7 (924) 834-85-08</li>
+          <li><strong>По почте:</strong> 665824, Иркутская область, г. Ангарск, СНТ «Расцвет», д. 126</li>
+        </ul>
+        <p>Оператор рассмотрит обращение и предоставит ответ в течение 30 (тридцати) календарных дней с момента его получения.</p>
+
+        <h2>12. ИСПОЛЬЗОВАНИЕ COOKIES И АНАЛИТИКИ</h2>
+        <p>Сайт использует файлы cookies и средства веб-аналитики (например, Google Analytics, Яндекс.Метрика) для анализа использования Сайта, сбора статистической информации и персонализации контента.</p>
+        <p>Пользователь может отключить cookies через настройки своего браузера. Однако это может повлиять на функциональность Сайта.</p>
+
+        <h2>13. ПЕРЕДАЧА ДАННЫХ ЗА ГРАНИЦУ</h2>
+        <p>Оператор не передает персональные данные Пользователя в страны за пределы Российской Федерации, за исключением случаев, когда это требуется законодательством.</p>
+
+        <h2>14. ИЗМЕНЕНИЯ ПОЛИТИКИ</h2>
+        <p>Оператор оставляет за собой право изменять настоящую Политику в любое время без предварительного уведомления. Новая версия Политики вступает в силу с момента её публикации на Сайте.</p>
+
+        <h2>15. КОНФИДЕНЦИАЛЬНОСТЬ</h2>
+        <p>Оператор гарантирует конфиденциальность персональных данных Пользователя и обязуется не разглашать эту информацию третьим лицам без согласия Пользователя.</p>
+
+        <h2>16. ДАТА ВСТУПЛЕНИЯ В СИЛУ</h2>
+        <p>Настоящая Политика вступила в силу с момента её публикации на Сайте: 5 февраля 2026 г.</p>
+
+        <p class="policy-footer"><strong>Документ подготовлен в соответствии с требованиями Федерального закона от 27 июля 2006 г. № 152-ФЗ «О защите персональных данных»</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" id="scrollToTop" aria-label="Наверх">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script src="courses-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
