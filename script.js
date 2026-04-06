@@ -21,7 +21,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Courses/Майнкрафт основы.png',
+      image: 'Foto/Courses/minecraft-basics.png',
       desc: 'Вводный курс в мир программирования через любимую игру. Дети учатся базовым алгоритмам и логике.'
     },
     {
@@ -30,7 +30,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Courses/Майнrрафт Python.png',
+      image: 'Foto/Courses/minecraft-python.png',
       desc: 'Переход от визуальных блоков к реальному коду на Python в среде Minecraft.'
     },
     {
@@ -48,7 +48,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Courses/Веб-разработка.png',
+      image: 'Foto/Courses/web-dev.png',
       desc: 'HTML, CSS и основы JavaScript. Результат — собственный сайт-портфолио.'
     },
     {
@@ -66,7 +66,7 @@
       direction: 'Психология',
       price: '4700₽/модуль',
       status: 'closed',
-      image: 'Foto/Courses/Эмоциональный интелект.png',
+      image: 'Foto/Courses/emotional-intelligence.png',
       desc: 'Развитие коммуникативных навыков, эмпатии и уверенности в себе.'
     },
     {
@@ -75,7 +75,7 @@
       direction: 'Психология',
       price: '9000₽ (3 консультации)',
       status: 'open',
-      image: 'Foto/Courses/профориентация подростки.png',
+      image: 'Foto/Courses/proforientation-teens.png',
       desc: 'Помогаем разобраться в интересах и выбрать направление для обучения и карьеры.'
     },
     {
@@ -84,7 +84,7 @@
       direction: 'Психология',
       price: '9000₽ (3 консультации)',
       status: 'open',
-      image: 'Foto/Courses/профориентацяи взрослые.png',
+      image: 'Foto/Courses/proforientation-adults.png',
       desc: 'Индивидуальные консультации по выбору профессии и построению карьерного трека.'
     }
   ];
