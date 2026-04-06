@@ -21,7 +21,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Курсы/Майнкрафт основы.png',
+      image: 'Foto/Courses/Майнкрафт основы.png',
       desc: 'Вводный курс в мир программирования через любимую игру. Дети учатся базовым алгоритмам и логике.'
     },
     {
@@ -30,7 +30,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Курсы/Майнrрафт Python.png',
+      image: 'Foto/Courses/Майнrрафт Python.png',
       desc: 'Переход от визуальных блоков к реальному коду на Python в среде Minecraft.'
     },
     {
@@ -39,7 +39,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Курсы/Screth.png',
+      image: 'Foto/Courses/Screth.png',
       desc: 'Углублённое изучение Scratch: анимация, физика, создание механик и уровней.'
     },
     {
@@ -48,7 +48,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Курсы/Веб-разработка.png',
+      image: 'Foto/Courses/Веб-разработка.png',
       desc: 'HTML, CSS и основы JavaScript. Результат — собственный сайт-портфолио.'
     },
     {
@@ -57,7 +57,7 @@
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
-      image: 'Foto/Курсы/CS50.png',
+      image: 'Foto/Courses/CS50.png',
       desc: 'Адаптированная программа знаменитого гарвардского курса для подростков.'
     },
     {
@@ -66,7 +66,7 @@
       direction: 'Психология',
       price: '4700₽/модуль',
       status: 'closed',
-      image: 'Foto/Курсы/Эмоциональный интелект.png',
+      image: 'Foto/Courses/Эмоциональный интелект.png',
       desc: 'Развитие коммуникативных навыков, эмпатии и уверенности в себе.'
     },
     {
@@ -75,7 +75,7 @@
       direction: 'Психология',
       price: '9000₽ (3 консультации)',
       status: 'open',
-      image: 'Foto/Курсы/профориентация подростки.png',
+      image: 'Foto/Courses/профориентация подростки.png',
       desc: 'Помогаем разобраться в интересах и выбрать направление для обучения и карьеры.'
     },
     {
@@ -84,7 +84,7 @@
       direction: 'Психология',
       price: '9000₽ (3 консультации)',
       status: 'open',
-      image: 'Foto/Курсы/профориентацяи взрослые.png',
+      image: 'Foto/Courses/профориентацяи взрослые.png',
       desc: 'Индивидуальные консультации по выбору профессии и построению карьерного трека.'
     }
   ];
