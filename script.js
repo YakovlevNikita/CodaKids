@@ -10,7 +10,9 @@
     'Гарвардский курс CS50': 'cs50',
     'Искусство общения / Эмоциональный интеллект': 'communication',
     'Профориентация для подростков': 'proforientation-teens',
-    'Профориентация для взрослых': 'proforientation-adults'
+    'Профориентация для взрослых': 'proforientation-adults',
+    'Нейросети для взрослых': 'ai-adults',
+    'Нейросети: быстрый старт': 'ai-child'
   };
 
   /* === Courses data === */
@@ -59,6 +61,24 @@
       status: 'closed',
       image: 'Foto/Courses/cs50.png',
       desc: 'Адаптированная программа знаменитого гарвардского курса для подростков.'
+    },
+    {
+      title: 'Нейросети: быстрый старт',
+      age: '10-16 лет',
+      direction: 'IT',
+      price: '5200₽/модуль',
+      status: 'closed',
+      image: 'Foto/Courses/ai-child.png',
+      desc: 'Современный курс для детей. Учим работать с ChatGPT, создавать контент и использовать ИИ в учебе и творчестве.'
+    },
+    {
+      title: 'Нейросети для взрослых',
+      age: '18+',
+      direction: 'IT',
+      price: '10400₽/мес',
+      status: 'closed',
+      image: 'Foto/Courses/ai-adults.png',
+      desc: 'Первый офлайн-курс по ИИ для взрослых в Ангарске. ChatGPT, DALL-E, Midjourney и другие нейросети для работы и быта.'
     },
     {
       title: 'Искусство общения / Эмоциональный интеллект',
