@@ -24,18 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Получение данных
+$name = isset($_POST['name']) ? trim($_POST['name']) : '';
 $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
-$email = isset($_POST['email']) ? trim($_POST['email']) : '';
 $consent = isset($_POST['consent']) ? true : false;
 
 // Валидация
-if (empty($phone) || strlen($phone) < 6) {
-    echo json_encode(['success' => false, 'message' => 'Пожалуйста, введите корректный номер телефона']);
+if (empty($name) || strlen($name) < 2) {
+    echo json_encode(['success' => false, 'message' => 'Пожалуйста, введите ваше имя']);
     exit;
 }
 
-if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode(['success' => false, 'message' => 'Пожалуйста, введите корректный E-mail']);
+if (empty($phone) || strlen($phone) < 6) {
+    echo json_encode(['success' => false, 'message' => 'Пожалуйста, введите корректный номер телефона']);
     exit;
 }
 
@@ -43,8 +43,8 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $date = date('d.m.Y H:i:s');
 $message = "📝 <b>Новая заявка с сайта КодаКидс</b>\n\n";
 $message .= "📅 Дата: $date\n";
+$message .= "👤 Имя: $name\n";
 $message .= "📱 Телефон: $phone\n";
-$message .= "📧 Email: $email\n";
 if ($consent) {
     $message .= "✅ Согласие на обработку данных: Да\n";
 }
@@ -53,8 +53,8 @@ $message .= "\n#заявка #codakids";
 // Email сообщение
 $emailMessage = "Новая заявка с сайта КодаКидс\n\n";
 $emailMessage .= "Дата: $date\n";
+$emailMessage .= "Имя: $name\n";
 $emailMessage .= "Телефон: $phone\n";
-$emailMessage .= "Email: $email\n";
 if ($consent) {
     $emailMessage .= "Согласие на обработку данных: Да\n";
 }
@@ -97,7 +97,7 @@ if ($telegramToken !== 'YOUR_BOT_TOKEN' && $chatId !== 'YOUR_CHAT_ID') {
 // =====================================================
 if ($adminEmail !== 'your@email.ru') {
     $headers = "From: noreply@codakids.ru\r\n";
-    $headers .= "Reply-To: $email\r\n";
+    $headers .= "Reply-To: $adminEmail\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     
     $mailSent = mail($adminEmail, $emailSubject, $emailMessage, $headers);

@@ -221,17 +221,17 @@
         return;
       }
       
+      const name = form.name.value.trim();
       const phone = form.phone.value.trim();
-      const email = form.email.value.trim();
 
+      if (!name || name.length < 2) {
+        showStatus('Пожалуйста, введите ваше имя', 'error');
+        form.name.focus();
+        return;
+      }
       if (!phone || phone.length < 6) {
         showStatus('Пожалуйста, введите корректный номер телефона', 'error');
         form.phone.focus();
-        return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showStatus('Пожалуйста, введите корректный E-mail', 'error');
-        form.email.focus();
         return;
       }
 
@@ -336,16 +336,34 @@
     const btnDecline = document.getElementById('cookieDecline');
     if (!banner) return;
 
+    // Helper для безопасной работы с localStorage
+    function getStorageItem(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setStorageItem(key, value) {
+      try {
+        localStorage.setItem(key, value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
     // Check if user already made a choice
-    if (localStorage.getItem('cookiesChoice')) {
+    if (getStorageItem('cookiesChoice')) {
       banner.classList.add('hidden');
     }
 
     // Accept cookies
     if (btnOk) {
       btnOk.addEventListener('click', () => {
-        localStorage.setItem('cookiesChoice', 'accepted');
-        localStorage.setItem('cookiesAccepted', '1');
+        setStorageItem('cookiesChoice', 'accepted');
+        setStorageItem('cookiesAccepted', '1');
         banner.classList.add('hidden');
       });
     }
@@ -353,7 +371,7 @@
     // Decline cookies
     if (btnDecline) {
       btnDecline.addEventListener('click', () => {
-        localStorage.setItem('cookiesChoice', 'declined');
+        setStorageItem('cookiesChoice', 'declined');
         banner.classList.add('hidden');
       });
     }
