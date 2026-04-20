@@ -1,18 +1,20 @@
 <?php
 // =====================================================
-// НАСТРОЙКИ - ЗАПОЛНИ ЭТИ ДАННЫЕ
-// =====================================================
-
-// Telegram Bot API
-$telegramToken = '8287572774:AAFUbyvSH_M_Vj4x5iguP9SqaS3qPp-vLOc';  // Замени на токен от @BotFather
-$chatId = '1912077593';           // Замени на свой chat_id от @userinfobot
-
-// Email для дублирования
-$adminEmail = 'codakids.ang@gmail.com';      // Замени на свою почту
-$emailSubject = 'Новая заявка с сайта КодаКидс';
-
-// =====================================================
 // ОБРАБОТКА ФОРМЫ
+// =====================================================
+
+// Подключение конфигурации с секретными данными
+$configPath = __DIR__ . '/includes/config.php';
+if (!file_exists($configPath)) {
+    header('Content-Type: application/json');
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Серверная ошибка: конфигурация не найдена']);
+    exit;
+}
+require_once $configPath;
+
+// =====================================================
+// ОБРАБОТКА ЗАПРОСА
 // =====================================================
 
 header('Content-Type: application/json');
