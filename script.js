@@ -12,11 +12,31 @@
     'Профориентация для подростков': 'proforientation-teens',
     'Профориентация для взрослых': 'proforientation-adults',
     'Нейросети для взрослых': 'ai-adults',
-    'Нейросети: быстрый старт': 'ai-child'
+    'Нейросети: быстрый старт': 'ai-child',
+    'Принципы безопасного интернета': 'security-internet'
   };
 
   /* === Courses data === */
   const courses = [
+    {
+      title: 'Весенние каникулы для школьников',
+      age: 'от 13 лет',
+      direction: 'Каникулы',
+      price: '21000₽/10 дней',
+      status: 'open',
+      image: 'Foto/Summer/s17.jpg',
+      desc: 'Программирование + Творчество + Психология. Живое общение и новые друзья!',
+      link: 'page.php'
+    },
+    {
+      title: 'Принципы безопасного интернета',
+      age: '16+',
+      direction: 'IT',
+      price: '8000₽ за курс',
+      status: 'open',
+      image: 'Foto/Courses/Security.jpeg',
+      desc: 'Практический интенсив для тех, кто хочет разобраться, как устроен интернет, и научиться защищать свои данные. За 4 занятия вы поймёте, как сайты собирают информацию о вас, и создадите собственный надёжный канал для безопасного выхода в сеть.'
+    },
     {
       title: 'Майнкрафт: основы программирования',
       age: '8-9 лет',
@@ -64,7 +84,7 @@
     },
     {
       title: 'Нейросети: быстрый старт',
-      age: '10-16 лет',
+      age: '12-16 лет',
       direction: 'IT',
       price: '5200₽/модуль',
       status: 'closed',
@@ -117,8 +137,12 @@
       const isOpen = c.status === 'open';
       const statusText = isOpen ? '✅ Идёт набор' : '❌ Набор закрыт';
       const statusClass = isOpen ? 'status-open' : 'status-closed';
+      const priceHtml = c.price ? `<div class="course-price">${escapeHtml(c.price)}</div>` : '';
+      const detailsBtn = c.link
+        ? `<a href="${escapeHtml(c.link)}" class="course-details-btn" target="_blank" rel="noopener">Подробнее</a>`
+        : `<button type="button" class="course-details-btn" data-course="${escapeHtml(c.title)}">Подробнее</button>`;
       return `
-        <article class="course-card">
+        <article class="course-card card">
           <div class="course-image">
             <img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.title)}">
           </div>
@@ -129,10 +153,10 @@
             <li><strong>Возраст:</strong> ${escapeHtml(c.age)}</li>
           </ul>
           <p class="course-desc">${escapeHtml(c.desc)}</p>
-          <div class="course-price">${escapeHtml(c.price)}</div>
+          ${priceHtml}
           <div class="course-actions">
-            <button type="button" class="course-details-btn" data-course="${escapeHtml(c.title)}">Подробнее</button>
-            <button type="button" data-scroll="#leadForm">Записаться</button>
+            ${detailsBtn}
+            <button type="button" class="btn-enroll" data-scroll="#leadForm">Записаться</button>
           </div>
         </article>
       `;
@@ -397,47 +421,26 @@
     }
   }
 
-  /* === Photo Wheel Gallery === */
-  function initPhotoWheel() {
-    const wheel = document.getElementById('photoWheel');
-    const prevBtn = document.getElementById('wheelPrev');
-    const nextBtn = document.getElementById('wheelNext');
+  /* === Masonry Gallery === */
+  function initPhotoGallery() {
+    const gallery = document.getElementById('photoGallery');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
     
-    if (!wheel) return;
+    if (!gallery) return;
     
-    let rotation = 0;
-    const angle = 45; // 360 / 8 фото
-    let isAnimating = true;
     let currentImageIndex = 0;
     
-    // Собираем все URL изображений
-    const wheelImages = Array.from(wheel.querySelectorAll('.wheel-item img')).map(img => img.src);
+    // Collect all image URLs
+    const galleryImages = Array.from(gallery.querySelectorAll('.masonry-item img')).map(img => img.src);
     
-    function rotate(direction) {
-      rotation += direction * angle;
-      wheel.style.animation = 'none';
-      wheel.style.transform = `perspective(1000px) rotateY(${rotation}deg)`;
-      isAnimating = false;
-      
-      setTimeout(() => {
-        wheel.style.animation = 'rotateWheel 30s linear infinite';
-        wheel.style.transform = '';
-        isAnimating = true;
-      }, 3000);
-    }
-    
-    prevBtn?.addEventListener('click', () => rotate(-1));
-    nextBtn?.addEventListener('click', () => rotate(1));
-    
-    // Lightbox функции
+    // Lightbox functions
     function openLightbox(index) {
       currentImageIndex = index;
-      lightboxImg.src = wheelImages[index];
+      lightboxImg.src = galleryImages[index];
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -445,30 +448,26 @@
     function closeLightbox() {
       lightbox.classList.remove('active');
       document.body.style.overflow = '';
-      // Возобновляем вращение колеса
-      wheel.style.animationPlayState = 'running';
     }
     
     function showPrevImage() {
-      currentImageIndex = (currentImageIndex - 1 + wheelImages.length) % wheelImages.length;
-      lightboxImg.src = wheelImages[currentImageIndex];
+      currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentImageIndex];
     }
     
     function showNextImage() {
-      currentImageIndex = (currentImageIndex + 1) % wheelImages.length;
-      lightboxImg.src = wheelImages[currentImageIndex];
+      currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+      lightboxImg.src = galleryImages[currentImageIndex];
     }
     
-    // Клик на фото в колесе
-    wheel.querySelectorAll('.wheel-item').forEach((item, index) => {
+    // Click on gallery items
+    gallery.querySelectorAll('.masonry-item').forEach((item, index) => {
       item.addEventListener('click', () => {
-        wheel.style.animationPlayState = 'paused';
         openLightbox(index);
       });
-      item.style.cursor = 'pointer';
     });
     
-    // Lightbox события
+    // Lightbox events
     lightboxClose?.addEventListener('click', closeLightbox);
     lightboxPrev?.addEventListener('click', (e) => { e.stopPropagation(); showPrevImage(); });
     lightboxNext?.addEventListener('click', (e) => { e.stopPropagation(); showNextImage(); });
@@ -477,7 +476,7 @@
       if (e.target === lightbox) closeLightbox();
     });
     
-    // Клавиатура
+    // Keyboard
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('active')) return;
       if (e.key === 'Escape') closeLightbox();
@@ -592,6 +591,83 @@
     }
   }
 
+  /* === FAQ Accordion === */
+  function initFaq() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    if (!faqItems.length) return;
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      if (!question) return;
+
+      question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        item.classList.toggle('active');
+        question.setAttribute('aria-expanded', String(!isActive));
+      });
+    });
+  }
+
+  /* === Reviews Slider === */
+  function initReviewsSlider() {
+    const track = document.getElementById('reviewsTrack');
+    const prevBtn = document.getElementById('reviewsPrev');
+    const nextBtn = document.getElementById('reviewsNext');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const slides = track.children;
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+
+    function getVisibleSlides() {
+      if (window.innerWidth <= 768) return 1;
+      if (window.innerWidth <= 1024) return 2;
+      return 3;
+    }
+
+    function updateSlider() {
+      const visible = getVisibleSlides();
+      const maxIndex = Math.max(0, totalSlides - visible);
+      currentIndex = Math.min(currentIndex, maxIndex);
+
+      const slideWidth = slides[0].offsetWidth;
+      const gap = parseFloat(getComputedStyle(track).gap) || 20;
+      const offset = currentIndex * (slideWidth + gap);
+      track.style.transform = 'translateX(-' + offset + 'px)';
+
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= maxIndex;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateSlider();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      const visible = getVisibleSlides();
+      const maxIndex = totalSlides - visible;
+      if (currentIndex < maxIndex) {
+        currentIndex++;
+        updateSlider();
+      }
+    });
+
+    window.addEventListener('resize', updateSlider);
+
+    // Init after images load to get correct widths
+    if (slides[0]) {
+      const img = slides[0].querySelector('img');
+      if (img && !img.complete) {
+        img.addEventListener('load', updateSlider);
+      } else {
+        updateSlider();
+      }
+    }
+  }
+
   /* === Init === */
   document.addEventListener('DOMContentLoaded', () => {
     renderCourses();
@@ -600,9 +676,11 @@
     initPhoneMask();
     initForm();
     initCookieBanner();
-    initPhotoWheel();
+    initPhotoGallery();
     initPolicyModal();
     initCourseModal();
     initScrollToTop();
+    initReviewsSlider();
+    initFaq();
   });
 })();
