@@ -1,4 +1,4 @@
-<?php $isHome = false; $needsCoursesData = false; ?>
+<?php session_start(); $isHome = false; $needsCoursesData = false; ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -17,7 +17,7 @@
     <section class="hero" style="background: linear-gradient(135deg, rgba(10,22,40,0.88) 0%, rgba(24,26,29,0.88) 100%), url('Foto/Gallery/new_05.jpg') center/cover no-repeat;">
       <div class="container hero-inner">
         <div class="hero-content">
-          <h1>Весенние каникулы для школьников</h1>
+          <h1>Летние каникулы для школьников</h1>
           <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 16px; color: rgba(255,255,255,0.95);">
             Идеальное решение для работающих родителей, которые хотят сделать вклад в будущее своих детей!<br>
             <strong style="color: var(--accent);">Программирование + Творчество + Психология.</strong>
@@ -72,7 +72,7 @@
 
   <section class="section section-light summer-program" id="program">
     <div class="container">
-      <h2 class="section-title center">Уникальная программа специально для детей от 13 лет, учитывая их уровень знаний и интересов</h2>
+      <h2 class="section-title center">Уникальная программа специально для школьников до 13 лет, учитывая их уровень знаний и интересов</h2>
       <p class="summer-subtitle">Мы соединили в своей программе современные знания программирования, информационных технологий, творчество и психологию!</p>
 
       <div class="program-features">
@@ -234,7 +234,7 @@
             <span class="faq-icon"></span>
           </button>
           <div class="faq-answer">
-            <p>Наша программа для детей от 13 лет, детям будет интересно общаться со сверстниками</p>
+            <p>Наша программа для школьников до 13 лет, детям будет интересно общаться со сверстниками</p>
           </div>
         </div>
         <div class="faq-item">
@@ -279,7 +279,7 @@
             <span class="faq-icon"></span>
           </button>
           <div class="faq-answer">
-            <p>Группы будут небольшие, всего 10 человек в смене, поэтому каждому хватит внимания</p>
+            <p>Группы небольшие, поэтому каждому хватит внимания</p>
           </div>
         </div>
       </div>

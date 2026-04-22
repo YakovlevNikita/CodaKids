@@ -1,4 +1,4 @@
-<?php $isHome = true; $needsCoursesData = true; ?>
+<?php session_start(); $isHome = true; $needsCoursesData = true; ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
